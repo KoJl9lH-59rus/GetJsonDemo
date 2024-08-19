@@ -1,0 +1,140 @@
+﻿@* @{
+    ViewBag.Title = "Upload";
+}
+<h3>Выберите файл для загрузки</h3>
+@using (Html.BeginForm("Action", "Home", FormMethod.Post))
+{
+
+} *@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Получить объекты</title>
+
+    <!-- Подключение CSS файлов -->
+    <link type="text/css" rel="stylesheet" href="css/jsgrid.min.css">
+    <link type="text/css" rel="stylesheet" href="css/jsgrid-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/demos.css">
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="css/slider.css">
+    <link rel="stylesheet" href="css/popupWindow.css">
+
+    <!-- Подключение JavaScript файлов -->
+    <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="js/jsgrid-1.5.3.min.js"></script>
+
+</head>
+
+<div id="popup" class="popup"></div>
+<body>
+    <div class="workspace">
+        <h1>Получить объекты</h1>
+        <div>
+            <b class="switchLabel">Получить сжатый Json</b>
+            <label class="switch">
+                <input id="compressSlider" type="checkbox" value="true">
+            <span class="slider round"></span>
+            </label>
+            <input id="checkbox" type="checkbox" value="true">
+        </div>
+        <button id="getObjectsBtn">Получить объекты</button>
+        <div id="responseTime"></div>
+        <div class="result">
+            <div class="container" id="container"></div>
+        </div>
+    </div>
+    <script src="js/site.js"></script>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+
+        function createItems(items) {
+            const container = document.getElementById('container');
+            container.innerHTML = ''; // Очищаем контейнер перед добавлением новых элементов
+
+            //промис чтобы дождаться конца загрузки
+            var promise = new Promise(function (resolve, reject) {
+
+                items.forEach(function (item, index) {
+                    //таймаут чтобы отдельно каждый элемент вывести
+                    setTimeout(function () {
+                        const div = document.createElement('div');
+                        div.className = 'item';
+                        div.textContent = item;
+                        container.appendChild(div);
+
+                        //сигнал промису об окончании функции
+                        if (index === items.length - 1) {
+                            resolve("result");
+                        }
+
+                    }, index); // Задержка в 0 мс между добавлением элементов
+                });
+            });
+            //загрузка кончается меняем состояние кнопки на загружено
+            promise.then(result => {
+                $('#getObjectsBtn').text("Объекты загружены");
+                $('#getObjectsBtn').addClass("complete");
+                $('#getObjectsBtn').addClass("complete:hover");
+            });
+        }
+
+        $('#popup').on("click", function (event) {
+            this.style.display = 'none';
+        });
+
+        $('#getObjectsBtn').on("click", function (event) {
+
+            const startTime = performance.now();
+
+            $.ajax({
+                url: '@Url.Action("ReadJson", "Home")',
+                type: 'GET',
+                data: $(this).serialize(),
+                success: function (response) {
+
+                    //время получения ответа от сервера
+                    const endTime = performance.now();
+                    const responseTime = endTime - startTime;
+                    $('#popup').text("Время ответа: " + responseTime + "ms");
+
+                    const popup = document.getElementById('popup');
+                    // Показываем всплывающее окно со временем
+                    popup.style.display = 'block';
+
+                    //создаем объекты
+
+                    $('#getObjectsBtn').text("Загрузка...");
+                    $('#getObjectsBtn').attr("disabled", true);
+
+                    //отрисовка объектов json`a
+                    createItems(response);
+
+                    $('#result').html("Результат: ");
+                },
+                error: function (xhr, status, error) {
+                    $('#getObjectsBtn').text("Произошла ошибка");
+                    $('#getObjectsBtn').addClass("fail");
+                    console.error(error);
+                }
+            });
+        });
+
+        $('#checkbox').on("click", function (event) {
+            var formData = $('#checkbox').is(':checked') ? $('#checkbox').val() : '';
+            $.ajax({
+                url: '@Url.Action("CompressStatus", "Home")',
+                type: 'GET',
+                data: formData,
+                success: function (response) {
+                    $('#result').html("Значение поменялось");
+                }
+            });
+        });
+    });
+</script>

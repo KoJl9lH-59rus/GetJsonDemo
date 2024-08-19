@@ -1,0 +1,110 @@
+
+@media (min-width: 768px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+label {
+    display: block;
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+input,
+label {
+    margin: 0.4rem 0;
+}
+
+.container {
+    max-width: 600px;
+    display: flex;
+    flex-wrap: wrap; /* Позволяет элементам переходить на новую строку */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Ограничение до 3 элементов в строке */
+}
+
+.item {
+    height: 40px;
+    width: 160px;
+    margin: 5px; /* Отступ между элементами */
+    box-sizing: border-box; /* Учитываем отступы и границы в общей ширине */
+    padding: 10px; /* Внутренний отступ */
+    text-align: center; /* Центрируем текст */
+    background-color: #e9ecef;
+    border-radius: 5px;
+    margin-top: 15px;
+    width: 95%;
+    padding: 10px;
+    font-size: 18px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.workspace {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.complete {
+    background-color: #28a745;
+}
+
+.complete:hover {
+    background-color: #1b702e;
+}
+
+.fail {
+    background-color: red;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.result {
+    margin-top: 20px;
+}
+
+.result h2 {
+    color: #333;
+}

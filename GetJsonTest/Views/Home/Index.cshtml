@@ -38,7 +38,6 @@
                 <input id="compressSlider" type="checkbox" value="true">
             <span class="slider round"></span>
             </label>
-            <input id="checkbox" type="checkbox" value="true">
         </div>
         <button id="getObjectsBtn">Получить объекты</button>
         <div id="responseTime"></div>
@@ -125,15 +124,12 @@
             });
         });
 
-        $('#checkbox').on("click", function (event) {
-            var formData = $('#checkbox').is(':checked') ? $('#checkbox').val() : '';
+        $('#compressSlider').click(function (event) {
+            var formData = $('#compressSlider').is(':checked') ? $('#compressSlider').val() : '';
             $.ajax({
                 url: '@Url.Action("CompressStatus", "Home")',
-                type: 'GET',
-                data: formData,
-                success: function (response) {
-                    $('#result').html("Значение поменялось");
-                }
+                type: 'POST',
+                data: {value: formData},
             });
         });
     });

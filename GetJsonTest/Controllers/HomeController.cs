@@ -17,7 +17,7 @@ namespace WebApplication1.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        private bool isCompressedJson = false;
+        private static bool isCompressedJson;
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -28,7 +28,6 @@ namespace WebApplication1.Controllers
         {
             return View();
         }
-
 
         public IActionResult Privacy()
         {

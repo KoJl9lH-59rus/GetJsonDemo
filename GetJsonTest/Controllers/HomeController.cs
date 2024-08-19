@@ -9,6 +9,7 @@ using System.Reflection.PortableExecutable;
 using System.Text.Json;
 using GetJsonTest.Models;
 using System.Text.Json.Nodes;
+using System.Diagnostics;
 
 
 namespace WebApplication1.Controllers
@@ -40,6 +41,8 @@ namespace WebApplication1.Controllers
 
         public JsonResult ReadJson()
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
             string fileName = GetPathToFiles("\\wwwroot\\files\\Объекты1000.json");
 
             if (!System.IO.File.Exists(fileName))
@@ -62,7 +65,13 @@ namespace WebApplication1.Controllers
                         }
                     }
                 }
-                return Json(jsonObjects);
+
+                stopwatch.Stop();
+
+                return Json(
+                    new {success = true, 
+                        result = jsonObjects, 
+                        processingTime = stopwatch.ElapsedMilliseconds });
             }
         }
 

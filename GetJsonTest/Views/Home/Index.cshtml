@@ -99,7 +99,7 @@
 
                     //время получения ответа от сервера
                     const endTime = performance.now();
-                    const responseTime = endTime - startTime;
+                    const responseTime = endTime - startTime - response.processingTime;
                     $('#popup').text("Время ответа: " + responseTime + "ms");
 
                     const popup = document.getElementById('popup');
@@ -112,7 +112,7 @@
                     $('#getObjectsBtn').attr("disabled", true);
 
                     //отрисовка объектов json`a
-                    createItems(response);
+                    createItems(response.result);
 
                     $('#result').html("Результат: ");
                 },
